@@ -1,0 +1,156 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
+
+/*Header*/
+
+.active a {
+  color: orange !important;
+}
+
+#horaAtual {
+  color: orange;
+  margin-bottom: unset;
+}
+
+.linkSair{
+    text-decoration: none;
+}
+
+/*FimHeader*/
+
+/*Geral*/
+
+.content {
+  margin-top: 3vh;
+  -webkit-box-shadow: 0px 10px 13px 0px rgba(0, 0, 0, 0.75);
+  -moz-box-shadow: 0px 10px 13px 0px rgba(0, 0, 0, 0.75);
+  box-shadow: 0px 10px 13px 0px rgba(0, 0, 0, 0.75);
+  min-height: 90vh;
+  padding: 50px;
+}
+
+body {
+  font-family: "Roboto", sans-serif !important;
+}
+
+/*FimGeral*/
+
+/*DashBoard*/
+.titulo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.titulo h2 {
+  font-weight: 900;
+}
+
+.titulo i {
+  font-size: 1.6rem;
+  color: white;
+}
+
+.titulo .btn-acao {
+  background-color: orange;
+  border-radius: 26px;
+  cursor: pointer;
+  margin-right: 5px;
+  padding: 5px;
+}
+
+.acoes {
+  display: flex;
+}
+
+.header {
+  border-bottom: lightgray 1px solid;
+  -webkit-box-shadow: 0px 7px 5px 0px rgba(161, 161, 161, 1);
+  -moz-box-shadow: 0px 7px 5px 0px rgba(161, 161, 161, 1);
+  box-shadow: 0px 0px 5px 0px rgba(161, 161, 161, 1);
+}
+
+.card-body h5 {
+  color: orange;
+}
+
+.movimentacoes {
+  margin-top: 20px;
+}
+
+.corpoMovimentacoes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.movimentacao {
+  border: solid 1px lightgoldenrodyellow;
+  background-color: orange;
+  padding: 15px;
+  color: white;
+  border-radius: 38px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.movimentacao h6 {
+  margin-top: 1px;
+}
+
+.separador {
+  height: 30px;
+  border: dashed lightgray 1px;
+}
+/*FimDashBoard*/
+
+/*Home*/
+
+.cabra {
+  margin-top: 20%;
+}
+
+.cabra h1 {
+  font-weight: 400;
+  font-size: 65px;
+  text-shadow: 5px 4px 5px black;
+}
+
+.container-parallax {
+  color: #fff;
+  height: 100vh;
+  display: flex;
+  background-attachment: fixed !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+.bg-img--version--1 {
+  background: url("../img/nordeste.jpg");
+  opacity: 0.7;
+}
+
+/*FimHome*/
+
+/* SignUp */
+
+.bg-color--yellow {
+  background-color: orange;
+}
+
+.signup-card {
+    box-shadow: 2px 2px 10px 6px rgba(0,0,0,.15);
+}
+
+.content-border--rounded {
+    border-radius: 5px;
+    box-shadow: 2px 2px 10px 6px rgba(0,0,0,.15);
+}
+
+/* SignUp */
