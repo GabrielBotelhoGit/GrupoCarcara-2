@@ -35,7 +35,7 @@
                 <div class="btn-acao" onclick="onClickAbrirModalOperacao()">
                     <i title="Movimentar conta" class="bi bi-upc"></i>
                 </div>          
-                <div class="btn-acao">
+                <div class="btn-acao" onclick="onClickAbrirModalTransferencia()">
                     <i title="Realizar Transferência Usuário" class="bi bi-box-arrow-up"></i>
                 </div>          
             </div>                
@@ -186,6 +186,49 @@
                 </div>  
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="salvarFiltro()">Salvar Filtro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bd-example-modal-lg" id="modalTransferencia" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modalLoaderHeader">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Transfência entre contas</h5>                                                               
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>
+                                Descrição
+                            </label>
+                            <input type="text" class="form-control" id="descricaoTransferencia">                            
+                        </div>    
+                        <div class="form-group">
+                            <label>
+                                Valor
+                            </label>
+                            <input type="number" class="form-control" id="valorTransferencia">                            
+                        </div>    
+                        <div class="form-group">
+                            <label>
+                                Data Operação
+                            </label>
+                            <input type="date" class="form-control" id="dataTransferencia">                            
+                        </div>   
+                        <div class="form-group">
+                            <label>
+                                Login da conta para transferir
+                            </label>
+                            <input type="text" class="form-control" id="loginTransferencia">                            
+                        </div>                                                                             
+                    </form>
+                    <h4 class="aviso escondido" id="avisoData">
+                        A data inicial precisa ser anterior que a data final
+                    </h4>
+                </div>  
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-primary" onclick="realizarTransferencia()">Realizar Transferência</button>
                 </div>
             </div>
         </div>

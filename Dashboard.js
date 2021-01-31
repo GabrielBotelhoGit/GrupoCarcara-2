@@ -76,6 +76,10 @@ function onClickAbrirModalOperacao(){
     $("#modalOperacao").modal("show");
 }
 
+function onClickAbrirModalTransferencia(){
+    $("#modalTransferencia").modal("show");
+}
+
 function realizarOperacao(){
     let descricao = document.getElementById("descricaoOperacao").value,
         valor = document.getElementById("valorOperacao").value,
@@ -129,6 +133,66 @@ function realizarOperacao(){
                 document.getElementById("tipoOperacao").value = "";
                 document.getElementById("tipoContaOperacao").value = "";
                 $("#modalOperacao").modal("hide");
+                onClickAutalizarDados();
+            })
+            .catch((Err) => {
+                console.log(Err);
+                loader(false);
+                alert("Ops, algo deu errado");            
+            })
+    }
+    
+}
+
+function realizarTransferencia(){
+    let descricao = document.getElementById("descricaoTransferencia").value,
+        valor = document.getElementById("valorTransferencia").value,
+        data = document.getElementById("dataTransferencia").value,
+        loginTransferencia = document.getElementById("loginTransferencia").value;
+        
+    
+    if(!descricao){
+        alert("Descrição não pode ficar vazia");
+    }
+    else if(!valor){
+        alert("Valor não pode ficar vazio");
+    }
+    else if(!data){
+        alert("Data não pode ficar vazia");
+    }else if(!loginTransferencia){
+        alert("Login da conta para transferir não pode ficar vazio");
+    }    
+    else{
+        loader(true);
+        //Aqui podemos continuar com a operação
+        let userData = getAuthUserData();
+        let token = getAuthToken();
+        let idConta = 0;
+        if(tipoConta == "Credito"){
+            idConta = userData.conta.id;
+        }
+        else{
+            idConta = userData.contaCredito.id;
+        }
+        axios.post(baseURL + "lancamentos", {
+            "conta": userData.contaCredito.id,
+            "contaDestino": loginTransferencia,
+            "data": data,
+            "descricao": descricao,
+            "login": userData.usuario.login,
+            "planoConta": 28,
+            "valor": Number(valor)
+        },{
+            headers:{
+                Authorization: token
+            },          
+        })
+            .then((res) => {                
+                document.getElementById("descricaoTransferencia").value = "";
+                document.getElementById("valorTransferencia").value = "";
+                document.getElementById("dataTransferencia").value = "";
+                document.getElementById("loginTransferencia").value = "";
+                $("#modalTransferencia").modal("hide");
                 onClickAutalizarDados();
             })
             .catch((Err) => {
