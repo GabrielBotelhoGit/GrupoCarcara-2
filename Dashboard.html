@@ -10,8 +10,11 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="utils/script.js"></script>
+    <script src="Dashboard.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/style.css">    
 </head>
 <body>
     <header class="align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
@@ -50,14 +53,14 @@
     </header>
     <div class="container">
         <div class="titulo">
-            <h2>
-                Bem-vindo ao dashboard
+            <h2 id="mensagemTitulo">
+                Bem-vindo 
             </h2>   
             <div class="acoes">
-                <div class="btn-acao">
+                <div class="btn-acao" onclick="onClickAutalizarDados()">
                     <i title="Recarregar Dados" class="bi bi-arrow-repeat"></i>
                 </div>                
-                <div class="btn-acao">
+                <div class="btn-acao" onclick="onClickAbrirModalFiltro()">
                     <i title="Filtrar Movimentações" class="bi bi-funnel"></i>
                 </div>      
                 <div class="btn-acao">
@@ -73,16 +76,16 @@
                 <div class="col-md-6">  
                     <div class="card" style="width: 100%;">
                         <div class="card-body">
-                            <h5 class="card-title">Conta Débito</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Saldo: R$&nbsp;0,00</h6>                                                                        
+                            <h5 class="card-title"><strong>Conta Débito</strong></h5>
+                            <h6 class="card-subtitle mb-2 text-muted" id="saldoContaDebito">Saldo: R$&nbsp;0,00</h6>                                                                        
                         </div>
                     </div>
                 </div>                
                 <div class="col-md-6">  
                     <div class="card" style="width: 100%;">
                         <div class="card-body">
-                            <h5 class="card-title">Conta Crédito</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">Saldo: R$&nbsp;0,00</h6>                                                                        
+                            <h5 class="card-title"><strong>Conta Crédito</strong></h5>
+                            <h6 class="card-subtitle mb-2 text-muted" id="saldoContaCredito">Saldo: R$&nbsp;0,00</h6>                                                                        
                         </div>
                     </div>
                 </div>
@@ -93,15 +96,18 @@
                 <div class="col-md-12">  
                     <div class="card" style="width: 100%;">
                         <div class="card-body">
-                            <h5 class="card-title">Movimentações</h5>
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                Tipo: Todas
+                            <h5 class="card-title"><strong>Movimentações</strong></h5>
+                            <h6 class="card-subtitle mb-2 text-muted" id="lblTipoConta">
+                                Tipo: Debito/Credito
                             </h6> 
-                            <h6 class="card-subtitle mb-2 text-muted">
+                            <h6 class="card-subtitle mb-2 text-muted" id="Data">
                                 Data: 28/01/2021
                             </h6> 
-                            <div class="corpoMovimentacoes">
-                                <div class="movimentacao">
+                            <div class="corpoMovimentacoes" id="corpoMovimentacoes">
+                                <!-- <div class="movimentacao">
+                                    <h5 class="card-subtitle mb-3 tipoConta">
+                                        <strong>Débito</strong>
+                                    </h5>                                                                                       
                                     <h6 class="card-subtitle mb-2">
                                         Valor: R$ 678,98
                                     </h6>               
@@ -115,6 +121,9 @@
                                 <div class="separador">
                                 </div>
                                 <div class="movimentacao">
+                                    <h5 class="card-subtitle mb-3 tipoConta">
+                                        <strong>Crédito</strong>
+                                    </h5>                                                                       
                                     <h6 class="card-subtitle mb-2">
                                         Valor: R$ 1.000,00
                                     </h6>               
@@ -127,7 +136,7 @@
                                     <h6 class="card-subtitle mb-2 ">
                                         Conta Destino: 20 - Gabriel Carreiras Botelho
                                     </h6>
-                                </div>
+                                </div> -->
                             </div>                                
                         </div>
                     </div>
@@ -135,6 +144,58 @@
             </div>
         </div>
     </div>
+    
+    <!--Modais-->        
+    <div class="modal fade bd-example-modal-lg" id="modalFiltro" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modalLoaderHeader">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Filtro</h5>                                                               
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>
+                                Data Inicial
+                            </label>
+                            <input type="date" class="form-control" id="dataInicio">                            
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Data Final
+                            </label>
+                            <input type="date" class="form-control" id="dataFim">                            
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Tipo de Conta
+                            </label>
+                            <select id="tipoConta">
+                                <option value="3">
+                                    Todas
+                                </option>
+                                <option value="2">
+                                    Débito
+                                </option>
+                                <option value="1">
+                                    Crédito
+                                </option>
+                            </select>
+
+                        </div>
+                    </form>
+                    <h4 class="aviso escondido" id="avisoData">
+                        A data inicial precisa ser anterior que a data final
+                    </h4>
+                </div>  
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="salvarFiltro()">Salvar Filtro</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--FimModais-->
+    
     <footer class="my-5 pt-3 text-muted text-center text-small">
         <p>© Copyrigth 2021 - Carcará Group</a></p>
     </footer>
