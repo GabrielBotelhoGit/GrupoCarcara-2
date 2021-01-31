@@ -2,20 +2,6 @@ const baseURL = getBaseUrl();
 var dataInicio = "";
 var dataFim = "";
 var tipoMovimentacao = "3";
-const aUsuarios = [
-    {  
-        login: "GabrielBotelho",
-        idDebito: 14,
-        idCredito: 13,
-        nome: "Gabriel Carreiras Botelho"
-    },
-    {
-        login:"wesleyvicen",
-        idDebito: 22,
-        idCredito: 21,
-        nome: "Wesley Vicente",
-    }
-];
 
 window.onload = function () {
     $(document).ready(function () {
@@ -293,14 +279,23 @@ function montarPagina(data){
     }
 
     //Ordenando os lançamentos em ordem decrescente, do mais novo para o mais antigo
+    //Ordenando os lançamentos em ordem decrescente, do mais novo para o mais antigo
     aMovimentacao = aMovimentacao.sort((a,b) => {
-        // let dataAAux = new Date(a.data + "T00:00:00"),
-        //     dataBAux = new Date(a.data + "T00:00:00");
+        let dataAAux = new Date(a.data + "T00:00:00"),
+            dataBAux = new Date(a.data + "T00:00:00");
+        if(dataAAux < dataBAux){
+        return 1;
+        }    
+        else if(dataAAux == dataBAux){
         if(a.id < b.id ){
             return 1;
         }
         else if(a.id == b.id){
             return 0;
+        }
+        else{
+            return -1;
+        }
         }
         else{
             return -1;
