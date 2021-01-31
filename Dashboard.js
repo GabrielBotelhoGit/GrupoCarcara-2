@@ -1,4 +1,4 @@
-const baseURL = 'https://accenture-java-desafio.herokuapp.com/';
+const baseURL = getBaseUrl();
 var dataInicio = "";
 var dataFim = "";
 var tipoMovimentacao = "3";
@@ -17,9 +17,11 @@ window.onload = function () {
     }
     atualizarDados(params);
 
-    let nomeUsuario = getNomeUsuario();
+    let nomeUsuario = getAuthNomeUsuario();
     document.getElementById("mensagemTitulo").innerHTML = "Bem-vindo, " + nomeUsuario + "!";
 
+    let nav = montarNavBar();
+    document.getElementById('navbanco').innerHTML = nav;
 }
 
 function onClickAutalizarDados(){
@@ -142,10 +144,11 @@ function montarPagina(data){
         }
     })
 
-    let corpoMovimentacoes = document.getElementById("corpoMovimentacoes");    
+    let corpoMovimentacoes = document.getElementById("corpoMovimentacoes");  
+    corpoMovimentacoes.innerHTML = "";  
     let i = 0;
     for (let movimentacao of aMovimentacao) {
-        let strmovimentacao = `
+        let strMovimentacao = `
             <div class="movimentacao">
                 <h5 class="card-subtitle mb-3 tipoConta">
                     <strong>${movimentacao.tipoConta}</strong>
@@ -161,7 +164,7 @@ function montarPagina(data){
                 </h6>   
             </div>
         `;
-        corpoMovimentacoes.innerHTML += strmovimentacao;
+        corpoMovimentacoes.innerHTML += strMovimentacao;
         if(i < aMovimentacao.length){
             corpoMovimentacoes.innerHTML += `
                 <div class="separador">
@@ -170,7 +173,17 @@ function montarPagina(data){
         }
         i++;
     }
-    
+    //Se não tiver nenhuma movimentação na range de data informada.
+    if(!corpoMovimentacoes.innerHTML.length){
+        let strMovimentacaoFake = `
+            <div class="movimentacao">
+                <h5 class="card-subtitle tipoConta">
+                    <strong>Não há movimentações com os filtros informados</strong>
+                </h5>                                                                                                         
+            </div>
+        `;
+        corpoMovimentacoes.innerHTML += strMovimentacaoFake;
+    }
     loader(false);
 }
 
