@@ -32,11 +32,11 @@
                 <div class="btn-acao" onclick="onClickAbrirModalFiltro()">
                     <i title="Filtrar Movimentações" class="bi bi-funnel"></i>
                 </div>      
-                <div class="btn-acao">
-                    <i title="Realizar Pagamento" class="bi bi-upc"></i>
+                <div class="btn-acao" onclick="onClickAbrirModalOperacao()">
+                    <i title="Movimentar conta" class="bi bi-upc"></i>
                 </div>          
                 <div class="btn-acao">
-                    <i title="Realizar Transferência" class="bi bi-box-arrow-up"></i>
+                    <i title="Realizar Transferência Usuário" class="bi bi-box-arrow-up"></i>
                 </div>          
             </div>                
         </div>    
@@ -80,6 +80,72 @@
     </div>
     
     <!--Modais-->        
+    <div class="modal fade bd-example-modal-lg" id="modalOperacao" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header modalLoaderHeader">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Movimentar conta</h5>                                                               
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label>
+                                Descrição
+                            </label>
+                            <input type="text" class="form-control" id="descricaoOperacao">                            
+                        </div>    
+                        <div class="form-group">
+                            <label>
+                                Valor
+                            </label>
+                            <input type="number" class="form-control" id="valorOperacao">                            
+                        </div>    
+                        <div class="form-group">
+                            <label>
+                                Data Operação
+                            </label>
+                            <input type="date" class="form-control" id="dataOperacao">                            
+                        </div>                        
+                        <div class="form-group">
+                            <label>
+                                Tipo da Operação
+                            </label>
+                            <select id="tipoOperacao" class="form-control">
+                                <option value="25">
+                                    Receita
+                                </option>
+                                <option value="26">
+                                    Despesa
+                                </option>
+                                <option value="27">
+                                    Transferência de conta débito para crédito
+                                </option>                                
+                            </select>
+                        </div>
+                        <div class="form-group" id="groupTipoContaOperacao">
+                            <label>
+                                Conta
+                            </label>
+                            <select id="tipoContaOperacao" class="form-control">
+                                <option value="Debito">
+                                    Débito
+                                </option>
+                                <option value="Credito">
+                                    Crédito
+                                </option>                                
+                            </select>
+                        </div>
+                    </form>
+                    <h4 class="aviso escondido" id="avisoData">
+                        A data inicial precisa ser anterior que a data final
+                    </h4>
+                </div>  
+                <div class="modal-footer">                    
+                    <button type="button" class="btn btn-primary" onclick="realizarOperacao()">Realizar Operação</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade bd-example-modal-lg" id="modalFiltro" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -104,7 +170,7 @@
                             <label>
                                 Tipo de Conta
                             </label>
-                            <select id="tipoConta">
+                            <select id="tipoConta" class="form-control">
                                 <option value="3">
                                     Todas
                                 </option>
@@ -115,12 +181,8 @@
                                     Crédito
                                 </option>
                             </select>
-
                         </div>
-                    </form>
-                    <h4 class="aviso escondido" id="avisoData">
-                        A data inicial precisa ser anterior que a data final
-                    </h4>
+                    </form>                    
                 </div>  
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" onclick="salvarFiltro()">Salvar Filtro</button>

@@ -2,8 +2,28 @@ const baseURL = getBaseUrl();
 var dataInicio = "";
 var dataFim = "";
 var tipoMovimentacao = "3";
+const aUsuarios = [
+    {
+        login: "GabrielBotelho",
+        idDebito: 14,
+        idCredito: 13,
+        nome: "Gabriel Carreiras Botelho"
+    },
+    {
+        login:"wesleyvicen",
+        idDebito: 22,
+        idCredito: 21,
+        nome: "Wesley Vicente",
+    }
+];
 
 window.onload = function () {
+    $(document).ready(function () {
+        $("#tipoOperacao").change(function (){
+            mudouTipoOperacao();
+        });
+    })    
+
     let dataAtual = new Date(),
         dataAux = dataAtual.getFullYear().toString() + "-" + ((dataAtual.getMonth() + 1).toString().length == 1 ? "0" + (dataAtual.getMonth() + 1).toString() : (dataAtual.getMonth() + 1).toString()) + "-" + (dataAtual.getDate().toString().length == 1 ? "0" + dataAtual.getDate().toString() : dataAtual.getDate().toString());
         dataInicio = dataAux;
@@ -24,6 +44,17 @@ window.onload = function () {
     document.getElementById('navbanco').innerHTML = nav;
 }
 
+function mudouTipoOperacao (){
+    let valor = $("#tipoOperacao").val();
+    if(valor == "27"){
+        $("#groupTipoContaOperacao").toggleClass("escondido", true);
+        $("#tipoContaOperacao").val("Debito");
+    }
+    else{
+        $("#tipoContaOperacao").toggleClass("escondido", false);
+    }
+}
+
 function onClickAutalizarDados(){
     let params = {
         dataInicio: dataInicio,
@@ -39,6 +70,74 @@ function onClickAbrirModalFiltro(){
     $("#dataFim").val(dataFim);
     $("#tipoConta").val(tipoMovimentacao);
     $("#modalFiltro").modal("show");
+}
+
+function onClickAbrirModalOperacao(){
+    $("#modalOperacao").modal("show");
+}
+
+function realizarOperacao(){
+    let descricao = document.getElementById("descricaoOperacao").value,
+        valor = document.getElementById("valorOperacao").value,
+        data = document.getElementById("dataOperacao").value,
+        tipoOperacao = document.getElementById("tipoOperacao").value,
+        tipoConta = document.getElementById("tipoContaOperacao").value;
+    
+    if(!descricao){
+        alert("Descrição não pode ficar vazia");
+    }
+    else if(!valor){
+        alert("Valor não pode ficar vazio");
+    }
+    else if(!data){
+        alert("Data não pode ficar vazia");
+    }else if(!tipoOperacao){
+        alert("Tipo da Operação não pode ficar vazio");
+    }
+    else if(!tipoConta && tipoOperacao != "27"){
+        alert("Tipo de conta não pode ficar vazio");
+    }
+    else{
+        loader(true);
+        //Aqui podemos continuar com a operação
+        let userData = getAuthUserData();
+        let token = getAuthToken();
+        let idConta = 0;
+        if(tipoConta == "Credito"){
+            idConta = userData.conta.id;
+        }
+        else{
+            idConta = userData.contaCredito.id;
+        }
+        axios.post(baseURL + "lancamentos", {
+            "conta": idConta,
+            "contaDestino": "",
+            "data": data,
+            "descricao": descricao,
+            "login": userData.usuario.login,
+            "planoConta": Number(tipoOperacao),
+            "valor": Number(valor)
+        },{
+            headers:{
+                Authorization: token
+            },          
+        })
+            .then((res) => {
+                document.getElementById("descricaoOperacao").value = "";
+                document.getElementById("valorOperacao").value = "";
+                document.getElementById("dataOperacao").value = "";
+                document.getElementById("tipoOperacao").value = "";
+                document.getElementById("tipoContaOperacao").value = "";
+                $("#modalOperacao").modal("hide");
+                onClickAutalizarDados();
+            })
+            .catch((Err) => {
+                console.log(Err);
+                loader(false);
+                alert("Ops, algo deu errado");            
+            })
+    }
+    
 }
 
 function salvarFiltro(){
@@ -131,12 +230,12 @@ function montarPagina(data){
 
     //Ordenando os lançamentos em ordem decrescente, do mais novo para o mais antigo
     aMovimentacao = aMovimentacao.sort((a,b) => {
-        let dataAAux = new Date(a.data + "T00:00:00"),
-            dataBAux = new Date(a.data + "T00:00:00");
-        if(dataAAux > dataBAux ){
+        // let dataAAux = new Date(a.data + "T00:00:00"),
+        //     dataBAux = new Date(a.data + "T00:00:00");
+        if(a.id < b.id ){
             return 1;
         }
-        else if(dataAAux == dataBAux){
+        else if(a.id == b.id){
             return 0;
         }
         else{
@@ -146,7 +245,7 @@ function montarPagina(data){
 
     let corpoMovimentacoes = document.getElementById("corpoMovimentacoes");  
     corpoMovimentacoes.innerHTML = "";  
-    let i = 0;
+    let i = 1;
     for (let movimentacao of aMovimentacao) {
         let strMovimentacao = `
             <div class="movimentacao">
@@ -155,6 +254,9 @@ function montarPagina(data){
                 </h5>                                                                                       
                 <h6 class="card-subtitle mb-2">
                     Valor: ${formatarDinheiro(movimentacao.valor)}
+                </h6>               
+                <h6 class="card-subtitle mb-2">
+                    Descrição: ${movimentacao.descricao}
                 </h6>               
                 <h6 class="card-subtitle mb-2 ">
                     Tipo de Movimentação: ${movimentacao.tipo}
@@ -205,4 +307,14 @@ function formataData(strData){
 function formatarDinheiro(dinheiro){
     dinheiro = dinheiro.toLocaleString ('pt-br', {style:'currency', currency:'BRL'});
     return dinheiro;
+}
+
+function getOptionsContas(){    
+    let options = "";
+    for(let i  = 0; i < aUsuarios.length; i++){
+        options += `
+            <option value="${JSON.stringify(aUsuarios[i])}">${aUsuarios[i].nome}</option>
+        `;
+    }
+    return options;
 }
