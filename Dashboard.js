@@ -3,7 +3,7 @@ var dataInicio = "";
 var dataFim = "";
 var tipoMovimentacao = "3";
 const aUsuarios = [
-    {
+    {  
         login: "GabrielBotelho",
         idDebito: 14,
         idCredito: 13,

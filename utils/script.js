@@ -32,26 +32,26 @@ function getBaseUrl(){
 }
 
 function getIsAuth(){
-    let token = localStorage.getItem('@token');
+    let token = localStorage.getItem('@token') || sessionStorage.getItem('@token');
     return !!token;
 }
 
 function getAuthToken(){
-    return localStorage.getItem("@token");
+    return localStorage.getItem("@token") || sessionStorage.getItem("@token");
 }
 
 function getAuthLogin(){
-    let usuarioLogado = JSON.parse(localStorage.getItem("userDataAccount"));
+    let usuarioLogado = JSON.parse(localStorage.getItem("userDataAccount")|| sessionStorage.getItem("userDataAccount"));
     return usuarioLogado.usuario.login;
 }
 
 function getAuthNomeUsuario(){
-    let usuarioLogado = JSON.parse(localStorage.getItem("userDataAccount"));
+    let usuarioLogado = JSON.parse(localStorage.getItem("userDataAccount") || sessionStorage.getItem("userDataAccount"));
     return usuarioLogado.usuario.nome.split(' ')[0];
 }
 
 function getAuthUserData(){
-    let usuarioLogado = JSON.parse(localStorage.getItem("userDataAccount"));
+    let usuarioLogado = JSON.parse(localStorage.getItem("userDataAccount") || sessionStorage.getItem("userDataAccount") );
     return usuarioLogado;
 }
 
