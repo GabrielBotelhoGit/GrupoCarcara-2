@@ -63,6 +63,7 @@ function getAuthConta(){
 
 function clearAuth(){
     localStorage.clear();
+    sessionStorage.clear();
 }
 
 function formataData(strData){
