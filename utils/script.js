@@ -129,10 +129,7 @@ function montarNavBar(){
                                     <button id="destroy_session" onclick="fazerLogout()" type="button" class="btn btn-secondary" >
                                         Sair
                                     </button>
-                                </div>
-                                <div class="p-3 bd-highlight">
-                                    <p>Saldo: ${formatarDinheiro(conta.saldo)}</p>
-                                </div>
+                                </div>                                
                             </div>
                                 `):''}
                         </div>
