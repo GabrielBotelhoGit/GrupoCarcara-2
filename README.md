@@ -26,7 +26,7 @@ Projeto foi feito para o treinamento da academia accenture, para podermos compro
 Visual Studio Code ou algum editor de texto
 
 # Acessando projeto hospedado
-Hospedado no: <a href="https://grupocarcara-1.netlify.app/
+Hospedado no: <a href="https://banco-carcara-2.netlify.app/
 ">Netlify</a>
 
 # Creditos
