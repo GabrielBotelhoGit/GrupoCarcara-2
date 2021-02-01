@@ -1,4 +1,4 @@
-# Grupo #
+# Grupo 1
 
 # Projeto 2
 
