@@ -1,6 +1,9 @@
 const baseURL = getBaseUrl();
 
 $(document).ready(function(){
+      if (getIsAuth()){
+            window.location.replace('dashboard.html')
+        }
       let nav = montarNavBar();
       document.getElementById('navbanco').innerHTML = nav;
       let flagKeepCon = document.getElementById('manterConectado');

@@ -3,6 +3,9 @@ const baseURL = getBaseUrl();
 
 // começa a renderização dos objetos da página
 $(document).ready(function(){
+    if (getIsAuth()){
+        window.location.replace('dashboard.html')
+    }
     let nav = montarNavBar();
     // carrega o navbar para dentro da página
     document.getElementById('navbanco').innerHTML = nav;

@@ -4,6 +4,9 @@ var dataFim = "";
 var tipoMovimentacao = "3";
 
 window.onload = function () {
+    if (!getIsAuth()){
+        window.location.replace('login.html')
+    }
     $(document).ready(function () {
         $("#tipoOperacao").change(function (){
             mudouTipoOperacao();
